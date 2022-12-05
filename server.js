@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8082"
+  origin: "https://frontend-reactjs-xi.vercel.app"
 };
 
 app.use(cors(corsOptions));
