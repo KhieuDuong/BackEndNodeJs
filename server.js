@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "https://frontend-reactjs-xi.vercel.app"
+  origin: ['https://frontend-reactjs-xi.vercel.app', 'https://www.acespacex.com', 'www.acespacex.com', 'acespacex.com']
 };
 
 app.use(cors(corsOptions));
