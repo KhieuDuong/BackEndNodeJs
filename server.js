@@ -1,14 +1,11 @@
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
 
-//var corsOptions = {
-  //origin: ['https://frontend-reactjs-xi.vercel.app', 'https://www.acespacex.com', 'www.acespacex.com', 'acespacex.com']
-//};
+
 
 const corsOptions = {
-  origin: ['https://frontend-reactjs-xi.vercel.app', 'https://www.acespacex.com', 'www.acespacex.com', 'acespacex.com'],
+  origin: ['https://frontend-reactjs-xi.vercel.app', 'https://www.acespacex.com', 'www.acespacex.com', 'acespacex.com', 'http://localhost:8081'],
   optionsSuccessStatus: 200
 }
 
@@ -40,6 +37,8 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/turorial.routes")(app);
+require("./app/routes/LessonsRoutes")(app);
+require("./app/routes/UsersRoutes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

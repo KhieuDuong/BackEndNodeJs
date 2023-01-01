@@ -1,6 +1,6 @@
 # Node.js Express & MongoDB: CRUD Rest APIs
 
-For more detail, please visit my webstie:
+For more detail, please visit:
 > [Node.js, Express & MongoDb: Build a CRUD Rest Api example](https://www.bezkoder.com/node-express-mongodb-crud-rest-api/)
 
 > [Server side Pagination in Node.js with MongoDB and Mongoose](https://www.bezkoder.com/node-js-mongodb-pagination/)

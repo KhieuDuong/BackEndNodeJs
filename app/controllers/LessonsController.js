@@ -1,5 +1,5 @@
 const db = require("../models");
-const Tutorial = db.tutorials;
+const Lesson = db.lessons;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -10,15 +10,16 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
-  const tutorial = new Tutorial({
+  const lesson = new Lesson({
     title: req.body.title,
     description: req.body.description,
-    published: req.body.published ? req.body.published : false
+    descriptionDetail: req.body.descriptionDetail,
+    level: req.body.level
   });
 
   // Save Tutorial in the database
-  tutorial
-    .save(tutorial)
+  lesson
+    .save(lesson)
     .then(data => {
       res.send(data);
     })
@@ -32,15 +33,13 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  console.log("get all tutorials");
-  const title = req.query.title;
-  var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
-
-  console.log("Find Lessons with an level" + condition);
-  Tutorial.find(condition)
+  console.log("get all Lessons");
+  const level = req.query.level;
+  var condition = level ? { level: { $regex: new RegExp(level), $options: "i" } } : {};
+  
+  Lesson.find(condition)
     .then(data => {
-      console.log(title);
-      console.log(data);
+      console.log(level);
       res.send(data);
     })
     .catch(err => {
@@ -51,22 +50,44 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Tutorial with an id
+// Find a single Lesson with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
+  console.log("get one Lesson");
 
-  Tutorial.findById(id)
+  Lesson.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found Tutorial with id " + id });
+        res.status(404).send({ message: "Not found Lesson with id " + id });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Tutorial with id=" + id });
+        .send({ message: "Error retrieving Lesson with id=" + id });
     });
 };
+
+
+
+// Find Lessons with an level
+// exports.findLevel = (req, res) => {
+//   const level = req.params.level;
+//   console.log("Find Lessons with an level" + level);
+
+//   Lesson.find({ level: level })
+//     .then(data => {
+//       console.log(data);
+//       if (!data)
+//         res.status(404).send({ message: "Not found Lesson with id " + id });
+//       else res.send(data);
+//     })
+//     .catch(err => {
+//       res
+//         .status(500)
+//         .send({ message: "Error retrieving Lesson with id=" + id });
+//     });
+// };
 
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
@@ -78,17 +99,17 @@ exports.update = (req, res) => {
 
   const id = req.params.id;
 
-  Tutorial.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  Lesson.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found!`
+          message: `Cannot update Lesson with id=${id}. Maybe Tutorial was not found!`
         });
-      } else res.send({ message: "Tutorial was updated successfully." });
+      } else res.send({ message: "Lesson was updated successfully." });
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Tutorial with id=" + id
+        message: "Error updating Lesson with id=" + id
       });
     });
 };
@@ -97,7 +118,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Tutorial.findByIdAndRemove(id, { useFindAndModify: false })
+  Lesson.findByIdAndRemove(id, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -118,10 +139,10 @@ exports.delete = (req, res) => {
 
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
-  Tutorial.deleteMany({})
+  Lesson.deleteMany({})
     .then(data => {
       res.send({
-        message: `${data.deletedCount} Tutorials were deleted successfully!`
+        message: `${data.deletedCount} Lesson were deleted successfully!`
       });
     })
     .catch(err => {
@@ -132,16 +153,4 @@ exports.deleteAll = (req, res) => {
     });
 };
 
-// Find all published Tutorials
-exports.findAllPublished = (req, res) => {
-  Tutorial.find({ published: true })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials."
-      });
-    });
-};
+
